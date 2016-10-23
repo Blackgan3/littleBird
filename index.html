@@ -64,7 +64,7 @@
             images     : ['img/bird0_0.png','img/bird0_1.png','img/bird0_2.png'],
             index      : 0,
             wing       : setInterval(function (){
-                index.index++;
+                bird.index++;
             },100),
             //当前是第几张图片
             clearTime  : function (){clearInterval(this.wing);},
@@ -87,7 +87,7 @@
             timer=setInterval(function (){
                 context.clearRect(0,0,288,512);
                 background.draw();
-                index.draw();
+                bird.draw();
                 obstruction.draw();
                 judge();
             },30);
@@ -111,23 +111,23 @@
         }, false);
         function judge(){
             //判断小鸟撞到了天花板没有
-            if(index.positionY<=0){
+            if(bird.positionY<=0){
                 index.clearTime();
                 clearInterval(timer);
             }
-            if(index.positionY>=512-48){
+            if(bird.positionY>=512-48){
                 index.clearTime();
                 clearInterval(timer);
             }
-            if(index.positionX+index.width>=obstruction.positionX&&
-                index.positionX<obstruction.positionX+52&&index.positionY<=obstruction.positionY+320){
+            if(bird.positionX+bird.width>=obstruction.positionX&&
+                bird.positionX<obstruction.positionX+52&&bird.positionY<=obstruction.positionY+320){
                 index.clearTime();
                 clearInterval(timer);
 
             }
-            if(index.positionX+index.width>=obstruction.positionX&&
-                index.positionX<obstruction.positionX+52&&index.positionY>=obstruction.positionY+320+kongXi){
-                index.clearTime();
+            if(bird.positionX+bird.width>=obstruction.positionX&&
+                bird.positionX<obstruction.positionX+52&&bird.positionY>=obstruction.positionY+320+kongXi){
+                bird.clearTime();
                 clearInterval(timer);
 
             }
