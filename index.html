@@ -98,7 +98,7 @@
             e= e || window.event;
             var keyCode = e.keyCode || e.which;
             if(keyCode == 32){
-                index.positionY-=80;
+                bird.positionY-=80;
             }
         };
         canvas.addEventListener('touchend', function(e) {
@@ -106,22 +106,22 @@
             e= e || window.event;
             var keyCode = e.keyCode || e.which;
             if(keyCode == 32){
-                index.positionY-=80;
+                bird.positionY-=80;
             }
         }, false);
         function judge(){
             //判断小鸟撞到了天花板没有
             if(bird.positionY<=0){
-                index.clearTime();
+                bird.clearTime();
                 clearInterval(timer);
             }
             if(bird.positionY>=512-48){
-                index.clearTime();
+                bird.clearTime();
                 clearInterval(timer);
             }
             if(bird.positionX+bird.width>=obstruction.positionX&&
                 bird.positionX<obstruction.positionX+52&&bird.positionY<=obstruction.positionY+320){
-                index.clearTime();
+                bird.clearTime();
                 clearInterval(timer);
 
             }
