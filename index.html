@@ -64,7 +64,7 @@
             images     : ['img/bird0_0.png','img/bird0_1.png','img/bird0_2.png'],
             index      : 0,
             wing       : setInterval(function (){
-                bird.index++;
+                index.index++;
             },100),
             //当前是第几张图片
             clearTime  : function (){clearInterval(this.wing);},
@@ -87,7 +87,7 @@
             timer=setInterval(function (){
                 context.clearRect(0,0,288,512);
                 background.draw();
-                bird.draw();
+                index.draw();
                 obstruction.draw();
                 judge();
             },30);
@@ -98,28 +98,36 @@
             e= e || window.event;
             var keyCode = e.keyCode || e.which;
             if(keyCode == 32){
-                bird.positionY-=80;
+                index.positionY-=80;
             }
         };
+        canvas.addEventListener('touchend', function(e) {
+            // 如果这个元素的位置内只有一个手指的话
+            e= e || window.event;
+            var keyCode = e.keyCode || e.which;
+            if(keyCode == 32){
+                index.positionY-=80;
+            }
+        }, false);
         function judge(){
             //判断小鸟撞到了天花板没有
-            if(bird.positionY<=0){
-                bird.clearTime();
+            if(index.positionY<=0){
+                index.clearTime();
                 clearInterval(timer);
             }
-            if(bird.positionY>=512-48){
-                bird.clearTime();
+            if(index.positionY>=512-48){
+                index.clearTime();
                 clearInterval(timer);
             }
-            if(bird.positionX+bird.width>=obstruction.positionX&&
-                bird.positionX<obstruction.positionX+52&&bird.positionY<=obstruction.positionY+320){
-                bird.clearTime();
+            if(index.positionX+index.width>=obstruction.positionX&&
+                index.positionX<obstruction.positionX+52&&index.positionY<=obstruction.positionY+320){
+                index.clearTime();
                 clearInterval(timer);
 
             }
-            if(bird.positionX+bird.width>=obstruction.positionX&&
-                bird.positionX<obstruction.positionX+52&&bird.positionY>=obstruction.positionY+320+kongXi){
-                bird.clearTime();
+            if(index.positionX+index.width>=obstruction.positionX&&
+                index.positionX<obstruction.positionX+52&&index.positionY>=obstruction.positionY+320+kongXi){
+                index.clearTime();
                 clearInterval(timer);
 
             }
