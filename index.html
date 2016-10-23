@@ -103,11 +103,8 @@
         };
         canvas.addEventListener('touchend', function(e) {
             // 如果这个元素的位置内只有一个手指的话
-            e= e || window.event;
-            var keyCode = e.keyCode || e.which;
-            if(keyCode == 32){
+
                 bird.positionY-=80;
-            }
         }, false);
         function judge(){
             //判断小鸟撞到了天花板没有
