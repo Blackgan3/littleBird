@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>压扁小鸟</title>
+    <link rel="stylesheet" href="bootstrap.min.css"/>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <canvas class="col-lg-3 col-sm-12 col-md-6" width="288" height="512" id="canvas">
+                您的浏览器不支持canvas
+            </canvas>
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+        var canvas = document.getElementById('canvas');
+        var context= canvas.getContext("2d");
+        var kongXi = 200;
+        //创建背景
+        var background={
+            "positionX":0,
+            "positionY":0,
+            width      : 288,
+            height     : 512,
+            bgImage    : (function(){var a=new Image();a.src="img/bg_night.png";return a;})(),
+            draw       : function(){
+                context.drawImage(this.bgImage,5,10,35,29,this.positionX,this.positionY,this.width,this.height);
+
+            }
+        };
+
+        var obstruction = {
+            positionX  : 208,
+            positionY  : Math.floor(Math.random()*229-228),
+            createImg  : (function (){
+               var imgs = [];
+              var images=['img/pipe_down.png','img/pipe_up.png'];
+               for(var i=0;i<images.length;i++){
+                   var a = new Image();
+                   a.src = images[i];
+                   imgs.push(a);
+               }
+                return imgs;
+            })(),
+            draw : function (){
+                this.positionX-=3;
+                context.drawImage(this.createImg[0],this.positionX,this.positionY,52,320);
+                context.drawImage(this.createImg[1],this.positionX,this.positionY+320+kongXi,52,320);
+                if(this.positionX<=-52){
+                    this.positionX=288;
+                    this.positionY=Math.floor(Math.random()*229-228);
+                }
+            }
+        };
+        //创建小鸟
+        var bird = {
+            "positionX":50,
+            "positionY":150,
+            width      :48,
+            height     :48,
+            images     : ['img/bird0_0.png','img/bird0_1.png','img/bird0_2.png'],
+            index      : 0,
+            wing       : setInterval(function (){
+                bird.index++;
+            },100),
+            //当前是第几张图片
+            clearTime  : function (){clearInterval(this.wing);},
+            currentImg : function(){
+                if(this.index>2){this.index=0;}
+                var a=new Image();
+                a.src=this.images[this.index];
+                return a;
+            },
+            draw       : function(){
+                this.bgImage = this.currentImg();
+                this.positionY+=5;
+                context.drawImage(this.bgImage,this.positionX,this.positionY,this.width,this.height);
+
+            }
+        };
+        var timer = null;
+        function drawAll(){
+
+            timer=setInterval(function (){
+                context.clearRect(0,0,288,512);
+                background.draw();
+                bird.draw();
+                obstruction.draw();
+                judge();
+            },30);
+
+
+        }
+        document.onkeyup = function(e){
+            e= e || window.event;
+            var keyCode = e.keyCode || e.which;
+            if(keyCode == 32){
+                bird.positionY-=80;
+            }
+        };
+        function judge(){
+            //判断小鸟撞到了天花板没有
+            if(bird.positionY<=0){
+                bird.clearTime();
+                clearInterval(timer);
+            }
+            if(bird.positionY>=512-48){
+                bird.clearTime();
+                clearInterval(timer);
+            }
+            if(bird.positionX+bird.width>=obstruction.positionX&&
+                bird.positionX<obstruction.positionX+52&&bird.positionY<=obstruction.positionY+320){
+                bird.clearTime();
+                clearInterval(timer);
+
+            }
+            if(bird.positionX+bird.width>=obstruction.positionX&&
+                bird.positionX<obstruction.positionX+52&&bird.positionY>=obstruction.positionY+320+kongXi){
+                bird.clearTime();
+                clearInterval(timer);
+
+            }
+        }
+        drawAll();
+    </script>
+</body>
+</html>
